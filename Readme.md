@@ -1,21 +1,33 @@
-# GdriveUploader
+# 🚀 GDriveUploader
 
-GdriveUploader is a lightweight Python utility to upload files to Google Drive using Rclone and Google Service Accounts. It's optimized for bulk and automated uploads using service account rotation to bypass daily upload limits.
+A lightweight command-line tool for uploading files to **Google Drive** using **Rclone** and **Service Accounts**. Supports load-balancing across multiple service accounts for seamless, automated uploading at scale.
 
----
-
-## 🚀 Features
-
-- ✅ Upload using Rclone with Google Drive
-- 🔄 Automatic service account rotation
-- 🛡️ Secure handling (tokens and credentials ignored via `.gitignore`)
-- 🧠 Simple, readable code structure
+Made with ❤️ From Ionicboy
 
 ---
+## ⚙️ Features
 
-## 📁 Project Structure
+- 🌀 **Load-balanced uploading** with multiple service accounts
+- 💾 Supports `rclone` and standard service account JSON files
+- 🔐 Secure: excludes sensitive files from Git
+- ✅ Easy setup for batch uploading to your GDrive
+---
+
+## Install Requirements
+```bash 
+pip install -r requirements.txt
+```
+
+### 1. Clone this repository
+
+```bash
+git clone https://github.com/yourusername/GdriveUploader.git
+cd GdriveUploader
 
 ```
+## 📁 Project Structure
+
+```bash
 GdriveUploader/
 ├── accounts/                # Folder with multiple service accounts (excluded from Git)
 │   ├── 1.json
@@ -34,18 +46,12 @@ GdriveUploader/
 - Python 3.8+
 - [Rclone](https://rclone.org/downloads/) (must be accessible from the script)
 - Google Service Account credentials
-
-Install Python dependencies:
-```bash
-pip install -r requirements.txt
-```
-
 ---
 
 ## 🧪 How to Use
 
 1. **Add your service accounts** in the `accounts/` folder.
-2. **Put the file you want to upload** (default: `sample.txt`) in the project root or modify `SOURCE_FILE` in `Uploader.py`.
+2. **Run the Start.bat....**
 3. **Run the script**:
 
 ```bash
@@ -83,26 +89,4 @@ MIT License. Feel free to fork and improve.
 Pull requests are welcome. For major changes, open an issue first to discuss what you would like to change.
 
 ---
-
-requirements.txt
-=================
-# Python dependencies (minimal)
-colorama
-
-
-Git Commands to Upload
-========================
-# Initialize and push to GitHub
-
-```bash
-git init
-git remote add origin https://github.com/yourusername/GdriveUploader.git
-git add .
-git commit -m "Initial commit"
-git branch -M main
-git push -u origin main
-```
-
-
-```
 🛑 Make sure you do NOT upload any confidential files like JSON service accounts or tokenSA.pickle.
