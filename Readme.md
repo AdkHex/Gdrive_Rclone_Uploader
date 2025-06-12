@@ -12,7 +12,6 @@ GdriveUploader is a lightweight Python utility to upload files to Google Drive u
 - 🧠 Simple, readable code structure
 
 ---
-
 ## 📁 Project Structure
 
 ```
