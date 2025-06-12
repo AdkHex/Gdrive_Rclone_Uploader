@@ -65,7 +65,8 @@ The script will rotate service accounts randomly and upload the file to your Goo
 
 ## 📸 Screenshot
 
-<!-- Insert screenshot here -->
+![Screenshot](assets/screenshot.png)
+![Screenshot](assets/screenshot1.png)
 
 ---
 
