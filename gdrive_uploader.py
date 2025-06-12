@@ -64,9 +64,6 @@ class GDriveUploader:
         self.active_uploads = set()
         self.console = Console()
         self.last_update_time = time.time()
-        self.file_count = 0
-        self.processed_files = 0
-        self.folder_structure = []
 
     def _create_banner(self):
         banner = pyfiglet.figlet_format("GDrive Uploader", font="slant")
@@ -107,59 +104,21 @@ class GDriveUploader:
             f.write(config_content)
         return config_file
 
-    def _scan_directory_structure(self):
-        """Scan and preserve the directory structure"""
-        self.folder_structure = []
-        for root, dirs, files in os.walk(self.input_dir):
-            # Get relative path from input directory
-            rel_path = os.path.relpath(root, self.input_dir)
-            if rel_path == ".":
-                rel_path = ""
-                
-            # Add directory to structure
-            if rel_path:
-                self.folder_structure.append(('directory', root, rel_path))
-            
-            # Add files in this directory
-            for file in files:
-                file_path = os.path.join(root, file)
-                file_rel_path = os.path.join(rel_path, file) if rel_path else file
-                self.folder_structure.append(('file', file_path, file_rel_path))
-                
-        return self.folder_structure
-
-    def _get_items_to_upload(self):
-        """Get files and directories while preserving structure"""
-        self._scan_directory_structure()
-        items = []
+    def _get_files_to_upload(self):
+        all_files = []
         total_size = 0
-        
-        for item_type, full_path, rel_path in self.folder_structure:
-            if item_type == 'file':
-                file_size = os.path.getsize(full_path)
-                items.append(('file', full_path, rel_path, file_size))
+        for root, dirs, filenames in os.walk(self.input_dir):
+            for filename in filenames:
+                file_path = os.path.join(root, filename)
+                rel_path = os.path.relpath(file_path, self.input_dir)
+                file_size = os.path.getsize(file_path)
+                all_files.append((file_path, rel_path, file_size))
                 total_size += file_size
-                self.file_count += 1
-            else:  # directory
-                dir_size = self._get_directory_size(full_path)
-                items.append(('directory', full_path, rel_path, dir_size))
-                total_size += dir_size
-                self.file_count += 1
-        
-        return items, total_size
-
-    def _get_directory_size(self, path):
-        """Calculate total size of a directory"""
-        total = 0
-        for dirpath, _, filenames in os.walk(path):
-            for f in filenames:
-                fp = os.path.join(dirpath, f)
-                total += os.path.getsize(fp)
-        return total
+        return all_files, total_size
 
     def _generate_stats_table(self):
         table = Table(
-            Column("Item", width=45, overflow="ellipsis"),
+            Column("File", width=45, overflow="ellipsis"),
             Column("Progress", width=25),
             Column("Speed", width=12),
             Column("ETA", width=10),
@@ -169,16 +128,9 @@ class GDriveUploader:
             padding=(0, 1)
         )
         
-        current_dir = None
-        for item_type, _, rel_path in self.folder_structure:
+        # Add active uploads first
+        for rel_path in list(self.active_uploads):
             stats = self.upload_stats.get(rel_path, {})
-            
-            # Add directory separator
-            dir_path = os.path.dirname(rel_path)
-            if dir_path != current_dir and dir_path:
-                table.add_row(f"[bold cyan]📁 {dir_path}[/bold cyan]", "", "", "", "")
-                current_dir = dir_path
-            
             if stats:
                 transferred = stats.get('transferred', 0)
                 size = stats.get('size', 1)
@@ -188,30 +140,36 @@ class GDriveUploader:
                 bar_length = 20
                 filled = int(bar_length * progress_percent // 100)
                 bar = '━' * filled + ' ' * (bar_length - filled)
-                bar_color = "yellow" if not stats.get('completed') else "green"
+                bar_color = "yellow"
                 
                 # Get ETA and speed
                 eta = stats.get('eta', '')
                 speed = stats.get('speed', '')
                 
-                status = "[yellow]Uploading[/yellow]"
-                if stats.get('completed'):
-                    status = "[bold green]✓ Completed[/bold green]"
-                elif stats.get('failed'):
-                    status = "[bold red]✗ Failed[/bold red]"
-                
-                prefix = "📄 " if item_type == 'file' else "📁 "
                 table.add_row(
-                    f"{prefix}{rel_path}",
+                    rel_path,
                     f"[{bar_color}]{bar}[/{bar_color}] {progress_percent}%",
                     speed,
                     eta,
-                    status
+                    "[yellow]Uploading[/yellow]"
                 )
-            else:
-                prefix = "📄 " if item_type == 'file' else "📁 "
+        
+        # Add completed files
+        for rel_path, stats in self.upload_stats.items():
+            if stats.get('completed') and rel_path not in self.active_uploads:
                 table.add_row(
-                    f"[dim]{prefix}{rel_path}[/dim]",
+                    f"[green]{rel_path}[/green]",
+                    "[green]━━━━━━━━━━━━━━━━━━━━[/green] 100%",
+                    "Done",
+                    "",
+                    "[bold green]✓ Completed[/bold green]"
+                )
+        
+        # Add pending files
+        for rel_path, stats in self.upload_stats.items():
+            if not stats.get('started') and rel_path not in self.active_uploads:
+                table.add_row(
+                    f"[dim]{rel_path}[/dim]",
                     "[dim]━━━━━━━━━━━━━━━━━━━━[/dim] 0%",
                     "",
                     "",
@@ -248,13 +206,10 @@ class GDriveUploader:
                 minutes, seconds = divmod(rem, 60)
                 eta_str = f"{int(hours):02d}:{int(minutes):02d}:{int(seconds):02d}"
         
-        processed_percent = int((self.processed_files / self.file_count) * 100) if self.file_count > 0 else 0
-        
-        table.add_row("Items", f"{self.processed_files}/{self.file_count}")
+        table.add_row("Files", str(len(self.upload_stats)))
         table.add_row("Size", f"{total_gb:.2f} GB")
         table.add_row("Uploaded", f"{transferred_gb:.2f} GB")
         table.add_row("Progress", f"{progress_percent}%")
-        table.add_row("Processed", f"{processed_percent}%")
         table.add_row("Speed", f"{speed_mbps:.2f} MB/s")
         table.add_row("Elapsed", time.strftime('%H:%M:%S', time.gmtime(elapsed)))
         table.add_row("ETA", eta_str)
@@ -269,18 +224,17 @@ class GDriveUploader:
         color_print("> V.1.0 By Ionicboy", COLOR_INFO)
         color_print(f"{self.input_dir} → {self.output_folder_id}\n", COLOR_INFO)
         
-        items, self.total_size = self._get_items_to_upload()
-        total_items = len(items)
+        all_files, self.total_size = self._get_files_to_upload()
+        total_files = len(all_files)
         
-        if total_items == 0:
-            color_print("No items found to upload", COLOR_WARNING)
+        if total_files == 0:
+            color_print("No files found to upload", COLOR_WARNING)
             return
 
         # Initialize upload stats
-        for item_type, full_path, rel_path, size in items:
+        for file_path, rel_path, file_size in all_files:
             self.upload_stats[rel_path] = {
-                'type': item_type,
-                'size': size,
+                'size': file_size,
                 'transferred': 0,
                 'speed': '',
                 'eta': '',
@@ -319,13 +273,12 @@ class GDriveUploader:
             
             with ThreadPoolExecutor(max_workers=self.max_workers) as executor:
                 futures = []
-                for item_type, full_path, rel_path, size in items:
+                for file_path, rel_path, file_size in all_files:
                     future = executor.submit(
-                        self.upload_item, 
-                        item_type,
-                        full_path, 
+                        self.upload_worker, 
+                        file_path, 
                         rel_path, 
-                        size
+                        file_size
                     )
                     futures.append(future)
                 
@@ -339,7 +292,7 @@ class GDriveUploader:
                     stats_table = self._generate_stats_table()
                     
                     layout["summary"].update(Panel(summary_table, title="Upload Summary", padding=(0, 1)))
-                    layout["status"].update(Panel(stats_table, title="Item Status", padding=(0, 1)))
+                    layout["status"].update(Panel(stats_table, title="File Status", padding=(0, 1)))
                     
                     # Update footer with active transfers
                     active_text = Text("Active Uploads: ", style="bold yellow")
@@ -363,7 +316,7 @@ class GDriveUploader:
             summary_table = self._generate_summary_table()
             stats_table = self._generate_stats_table()
             layout["summary"].update(Panel(summary_table, title="Upload Summary", padding=(0, 1)))
-            layout["status"].update(Panel(stats_table, title="Item Status", padding=(0, 1)))
+            layout["status"].update(Panel(stats_table, title="File Status", padding=(0, 1)))
             
             # Show completion message
             layout["footer"].update(Panel(Text("All uploads completed!", style="bold green"), title="Status"))
@@ -373,20 +326,20 @@ class GDriveUploader:
         
         # Cleanup and show results
         successful_uploads = sum(1 for stats in self.upload_stats.values() if stats.get('completed'))
-        failed_uploads = total_items - successful_uploads
+        failed_uploads = total_files - successful_uploads
         
-        color_print(f"\nUpload completed: {successful_uploads}/{total_items} items uploaded successfully", 
-                   COLOR_SUCCESS if successful_uploads == total_items else COLOR_WARNING)
+        color_print(f"\nUpload completed: {successful_uploads}/{total_files} files uploaded successfully", 
+                   COLOR_SUCCESS if successful_uploads == total_files else COLOR_WARNING)
         
         if failed_uploads > 0:
-            color_print("\nFailed items:", COLOR_WARNING)
+            color_print("\nFailed files:", COLOR_WARNING)
             for rel_path, stats in self.upload_stats.items():
                 if not stats.get('completed'):
                     color_print(f"  - {rel_path}", COLOR_WARNING)
         
         shutil.rmtree(self.temp_dir)
 
-    def upload_item(self, item_type, full_path, rel_path, size):
+    def upload_worker(self, file_path, rel_path, file_size):
         # Mark as started
         with self.lock:
             self.upload_stats[rel_path]['started'] = True
@@ -394,26 +347,17 @@ class GDriveUploader:
         
         service_account = self._get_next_account()
         config_file = self._create_rclone_config(service_account)
-        
-        # Handle files vs directories differently
-        if item_type == 'file':
-            dest_path = f"gdrive:{self.output_folder_id}/{os.path.dirname(rel_path)}" if os.path.dirname(rel_path) else f"gdrive:{self.output_folder_id}"
-            source_path = full_path
-        else:  # directory
-            dest_path = f"gdrive:{self.output_folder_id}/{os.path.dirname(rel_path)}" if os.path.dirname(rel_path) else f"gdrive:{self.output_folder_id}"
-            source_path = full_path
-            # For directories, we need to ensure we're copying the folder contents
-            source_path = os.path.join(source_path, "")  # Add trailing slash
+        dest_path = f"gdrive:{os.path.dirname(rel_path)}" if os.path.dirname(rel_path) else "gdrive:/"
         
         cmd = [
             self.rclone_path,
             "--config", config_file,
             "copy",
             "--drive-chunk-size", self.chunk_size,
-            "--transfers", str(self.transfers),
+            "--transfers", "1",  # Set transfers to 1 per worker
             "--stats", "1s",
             "--progress",
-            source_path,
+            file_path,
             dest_path
         ]
         
@@ -469,7 +413,7 @@ class GDriveUploader:
                     last_eta = eta_match.group(1).strip()
                 
                 # Calculate bytes transferred
-                transferred_bytes = size * last_percent // 100
+                transferred_bytes = file_size * last_percent // 100
                 delta = transferred_bytes - last_transferred
                 last_transferred = transferred_bytes
                 
@@ -488,13 +432,12 @@ class GDriveUploader:
             with self.lock:
                 if process.returncode == 0:
                     # Ensure we account for any remaining bytes
-                    remaining_bytes = size - last_transferred
+                    remaining_bytes = file_size - last_transferred
                     self.overall_transferred += remaining_bytes
                     self.completed_files += 1
-                    self.processed_files += 1
                     
                     self.upload_stats[rel_path].update({
-                        'transferred': size,
+                        'transferred': file_size,
                         'speed': 'Done',
                         'eta': '',
                         'completed': True
@@ -504,7 +447,6 @@ class GDriveUploader:
                         'speed': 'Failed',
                         'failed': True
                     })
-                    self.processed_files += 1
                 
                 self.active_uploads.remove(rel_path)
                     
@@ -515,7 +457,6 @@ class GDriveUploader:
                     'failed': True
                 })
                 self.active_uploads.remove(rel_path)
-                self.processed_files += 1
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Google Drive Parallel Uploader")
