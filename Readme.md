@@ -1,3 +1,14 @@
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.8+-blue?logo=python&logoColor=white" />
+  
+  <img src="https://img.shields.io/badge/Rclone-Supported-success?logo=google-drive&logoColor=white&color=brightgreen" />
+  
+  <img src="https://img.shields.io/badge/Google%20Drive-API%20Enabled-informational?logo=google-drive&logoColor=white" />
+  
+  <img src="https://img.shields.io/badge/License-MIT-yellow.svg" />
+</p>
+
+
 # GdriveUploader
 
 GdriveUploader is a lightweight Python utility to upload files to Google Drive using Rclone and Google Service Accounts. It's optimized for bulk and automated uploads using service account rotation to bypass daily upload limits.
@@ -30,9 +41,9 @@ GdriveUploader/
 
 ## ⚙️ Requirements
 
-- Python 3.8+
-- [Rclone](https://rclone.org/downloads/) (must be accessible from the script)
-- Google Service Account credentials
+- ![Python](https://img.shields.io/badge/python-3.8%2B-blue) Python 3.8+
+- <img src="https://img.shields.io/badge/Rclone-Supported-success?logo=google-drive&logoColor=white&color=brightgreen" />  [Rclone](https://rclone.org/downloads/) (must be accessible from the script)
+- <img src="https://img.shields.io/badge/Google%20Drive-API%20Enabled-informational?logo=google-drive&logoColor=white" />  Google Service Account credentials
 
 Install Python dependencies:
 ```bash
@@ -70,7 +81,7 @@ The script will rotate service accounts randomly and upload the file to your Goo
 
 ---
 
-## 📜 License
+##   <img src="https://img.shields.io/badge/License-MIT-yellow.svg" />
 
 MIT License. Feel free to fork and improve.
 
