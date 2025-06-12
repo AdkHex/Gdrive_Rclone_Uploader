@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "woven-sensor-394721",
+  "private_key_id": "02a27b6f808021436388265b3b2bb02dd57cc0aa",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDgCcu4S5feJDiR\nyRF6FUzDgtn3swn6g6tOaGNJoxjgFxn+HMB8dTbQV1B7r/LWQ5m26nLfaz3W5f9J\nCF3t9ELJWc779mRHCwECZ7zl9iMed91q6MVK6KyvgHwnDvwt82dfjuur94cNTNaF\noqQVUjyxqvarDLBOSqR/KFMAybJEQFhQ35oOSOeIACsZPO7HF2vefzR9NXhdvU4u\neFRx2D5nS4/eADsTFC3ztsalPeTxE/eHYWh6I35qQvNC8SSBcInRizd7bXMR1vkZ\nTSSWW9Hz/tjn1rFPPZYYifsNZ1alw+p9L55eGd4vV5uQWSyO4fovB+AFhFnqWJaE\nUJttAyNDAgMBAAECggEAGUChaM2EebKFedE7GhKqi2MFZIkWt9j9hyH3BwbON/wC\nnwTooV6o5gThen+TlJkcC2UTu6Ef4EgeZUH/LGIa4Q0xam8UUHmqDHZa8WS0Aqwq\nFfHUwyPEyydlVxW2UQudfETkxYZp/5LIn1l8uzaAxtnpYdBVUw3QytBlwrH5WP3d\nn4/APgXB1BDJ0UjPdwhUwKO/eHVzX+Y0gZu5JOupom6sTH6U67reB/bavMGkOneJ\n4iw6Yw1lZhw9+6yuCkxCGnmae2Zr0MBLrnNFuOdPoZe7reDJXxsudxgxZbQd1yFr\nUIeQ2kiDzS0UsBzik7f+r1fXNN4VWp+2XdyTGhJDyQKBgQD+oIS3KTps7lbv0nbR\nhJtleZl/m7ciAgh/7KWx73JBq22lRGc9tJ2HpHltMfIy/mEGnLqROSV0NaALxK1D\ni5txz1yfb8YTPB9VLEMVFIaA+LhyHbBHf2iC4HH2jOEvUsVaMIOHk/A/W1pGijMe\nzMHL+wjhySEiBejOn7skZSWCJQKBgQDhPw2lY55N5pwIKDh8bdh1ZYnUwbeYDYm/\n4a44cPkvOT1d7XfPXtE/Ub0iblOqmOorda+FHFWZPvEDtKa53qM17Onog/JB4vOu\n66eZL/Dz71dE8dldlQmXzSirech3II/KEmumuBgmsDHOI2DFV5MwIdGBjjvXj2yp\ng8sLKRZvRwKBgQDLbGZbBl8dA9UEyDoQ7UZQ7bMKVdcbHlC4EtHVtByuBk0Uye9J\nRvDLm0U/TbXXs47Ef5Y1y1f23Zi9jiV2XySS6j1vSxcN6uyFWVVGlB1ZEFwbH0jj\n9hAC71lcxfRpoFD22udZ+4DmvQ8EaAirRJ5XXnkcGVmVGu+Bk+8pBn3O2QKBgGCe\ne2wGX1FrKmMVXaWCOOeitozcy7QdmokEdYcgbsMi+n/f7RS2x2sx1L+AM8Np9IjP\n4opmrREfPqMoSpxQNBJdnbhvYOuCPqU50JqVRfZdJEIeu+64j3TePCPSCXuQLB2x\n6RuKvFFcIwEZi9kax7hNyWCZcnH0w9ezANW4ujbhAoGBAORJNeCe893ZEwfb5eDZ\nfOkSqEUFhqRGFsambqzowsHslnB7gS/ZEugPFfYTcy1qjD0NBdIdGe484L3obdcr\n4j+dyOn5cDBv9se2UQFlfHHi2zHQZkRO1A2TsYSizuhTld0WnA2IJzmvZp8ypLfi\nWabYU1TwXiw6O4FwH2QOTdYs\n-----END PRIVATE KEY-----\n",
+  "client_email": "mfc-cjdc1iuncs1r96fw4pofsvvpxn@woven-sensor-394721.iam.gserviceaccount.com",
+  "client_id": "106572798442603746890",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/mfc-cjdc1iuncs1r96fw4pofsvvpxn%40woven-sensor-394721.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

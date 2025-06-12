@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "silken-glyph-456406-r5",
+  "private_key_id": "f30c6e9d0eb385f9b263b77f0a52cf26b12e575f",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCRmXN3ZTdUERoU\nJNOlxSO61+CpReH2ldF5o9LuwWr8e6WFJ1vB+5I/h2HAZffknvUUIgf3W/2iNuS5\ngJMWumQsNIZLbj21CR5FjUNjSWBX2SBUC816a/upLyeDhuTLlx5tcjUU/Dkc/3Eh\nf1KEIXtUrntQu5xWAl32t4/t4qN21qkHGuI8M9TFK3gzQ+mYRh/yg042edKVKzwC\nB49RCXmncEeVjIG8E8ZCQHUv3xfPkT/izgXiDJxWCqQfZhLQPe7Vai8aYEAe91ZE\nQMItW/qJFG6sY8U7TCzK7ZhNVGi5i3dOIXHRIg1U6Baeb0jnsOu4ACCewS2GoDR/\nDIcsWNRZAgMBAAECggEAAUpv+J4AGJGyPn15Ft4hi/V/+2AwOaRoYACwzQcP8L8T\n35NSv+yABmon1rHQucki+RO4KFw7amW8L1zRcQEkBDRPAHowt9sl1o4DC+1Jml3F\naJlWMACnEX/mhMb8XkWvsl6x08bMptIo6ZgcXimB02VcmIGhSC3rMVW9Q+mfc10+\nYzQ8ecKRJe0xGk9E/zhK/Nt7YrHi1AZqo+So7rbsGEGocMzL/jTyJzBIYJvfxHEz\n71a13YvUkuNiEvig3Gq+mmiSwImdfdEJtZBD663Bwqs3cRl2BMz+R2aDO7iMhDVc\nn4yYgG9SVRTJ8F7YgYcBWV0xuVwiIa/so2M7CUZ9BQKBgQDJs221pxtjzM1Qa3pk\nBMolYR2K0klY9N9UfmRkASkwW41b8MgRUwfy2km04A3DXV7W+6WTfxNkdBM3N7Nb\nfHlRF8Llx6UDIdfOva7i/8mtlTvSCfjt6qwhMDwpDEU8ouEHDUEKjuZ6SXm2cnWs\nSuVNOQoH2oKHmA7G+7svRtd/jwKBgQC4y7DXGpWeIvVGZyChHpeldlAQ3MyqIivi\n+LXAhF+1nDApkbdPzYjNnmifUCXDV8XZ51B0CTidWWS3NrM7DXFUh9H0rOWGYcqy\n4coOyiIwkLeEQtiA1pF4Q4rSSmiDcCpK1wgJZK3MJdCf/c4Le/basrcMoC0/WLuV\neMz4f+55lwKBgD8z8lTRoEuNiWiBxUBCH/XGkLNHYaR2VuTrFhogIv/8MDd3I7oK\nApueuynqa2WkhGtpP2EQmMsJdFwBIDqyrnEyuOe3v4VTvYQS/BI1hMTX1n7ikRY8\nSuO7cZ6LMcbmYw0Koi7kyGPZUkJRa34pmeCw1uvPFMfYZgkEKIuP70cRAoGAFpPU\nVEOMOhjdTK+23diGAJI28Ah5/ONV51Ipqo7BvseJXtrNwbND3pNXBvfc1UP5CUlo\nm/SwdREB7ByDw1g+G2zIqxMgq81w3XAWpr3tdW+I7GDaYMtWVJIz+MNch4qBsEkb\nU0J4tXN9TL7OmLqZi1jAYouDW7T0nit3J3lB4psCgYAm/2zqjCxysjMHYXsmFlNa\n69PLn2FeQ+c9Pw1msyo60HZ8FAIlbp0hOhpE2MHdwKTu3rW7UDMt//PUhFD9xN9s\nvZq4y140stonU7wZtE0bl+us7QCPww43fgqc1TatD49fBmIV/ghaV0WF90+TMBob\n9p7/hx/dLb+lFDY2US0oqg==\n-----END PRIVATE KEY-----\n",
+  "client_email": "drive6@silken-glyph-456406-r5.iam.gserviceaccount.com",
+  "client_id": "109634838953432464831",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/drive6%40silken-glyph-456406-r5.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
