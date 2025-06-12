@@ -30,10 +30,11 @@ GdriveUploader/
 ├── accounts/                # Folder with multiple service accounts (excluded from Git)
 │   ├── 1.json
 │   └── ...
-├── Uploader.py              # Main upload script
+├── gdrive_uploader.py       # Main upload script
 ├── rclone.exe               # Rclone binary (Windows)
 ├── tokenSA.pickle           # Cached token (excluded from Git)
 ├── requirements.txt         # Python dependencies
+├── StartUploader.bat        # Batch File to Directly Run the Program        
 └── README.md                # Project documentation
 ```
 
