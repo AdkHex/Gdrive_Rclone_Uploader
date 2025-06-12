@@ -91,27 +91,5 @@ MIT License. Feel free to fork and improve.
 
 Pull requests are welcome. For major changes, open an issue first to discuss what you would like to change.
 
----
-
-requirements.txt
-=================
-# Python dependencies (minimal)
-colorama
-
-
-Git Commands to Upload
-========================
-# Initialize and push to GitHub
-
-```bash
-git init
-git remote add origin https://github.com/yourusername/GdriveUploader.git
-git add .
-git commit -m "Initial commit"
-git branch -M main
-git push -u origin main
-```
-
-
 ```
 🛑 Make sure you do NOT upload any confidential files like JSON service accounts or tokenSA.pickle.
